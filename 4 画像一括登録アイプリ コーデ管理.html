@@ -1,0 +1,401 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>アイプリ コーデ管理</title>
+<style>
+:root{--bg:#fff0f7;--bg2:#eef2fd;--card:#fff;--pink:#f46bb6;--deep:#c9408a;--soft:#f6c6e0;--ink:#7a2f5c;--mute:#a07a92;--ok:#3bb38a;
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#2a1824;--bg2:#1f1a2e;--card:#3a2433;--soft:#6b3a56;--ink:#ffc9e6;--mute:#c79ab5}}
+:root[data-theme="dark"]{--bg:#2a1824;--bg2:#1f1a2e;--card:#3a2433;--soft:#6b3a56;--ink:#ffc9e6;--mute:#c79ab5}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+body{margin:0;min-height:100vh;background:linear-gradient(160deg,var(--bg),var(--bg2));color:var(--ink);font-family:"Hiragino Maru Gothic ProN","Zen Maru Gothic","Yu Gothic",sans-serif;font-weight:700}
+header{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;padding:12px 16px;background:var(--card);border-bottom:3px solid var(--soft);display:flex;justify-content:space-between}
+header b{color:var(--pink)}
+main{padding:14px 14px 100px;max-width:640px;margin:auto}
+nav{position:fixed;left:0;right:0;bottom:0;display:flex;background:var(--card);border-top:3px solid var(--soft);padding-bottom:env(safe-area-inset-bottom,0px);z-index:6}
+nav button{flex:1;border:0;background:none;color:var(--mute);padding:9px 2px;font:inherit;font-size:11px}
+nav button i{display:block;font-style:normal;font-size:20px}
+nav button.on{color:var(--deep);background:color-mix(in srgb,var(--pink) 10%,transparent)}
+input,select,textarea{width:100%;border:2px solid var(--soft);border-radius:16px;padding:11px 13px;font:inherit;background:var(--card);color:var(--ink);margin-bottom:10px}
+textarea{height:90px;font-size:11px}
+.chips{display:flex;gap:8px;overflow-x:auto;padding:2px 0 10px}
+.chip{flex:none;border:2px solid var(--soft);background:var(--card);color:var(--ink);border-radius:14px;padding:7px 12px;font:inherit;font-size:13px}
+.chip.on{background:#d46fa6;color:#fff;border-color:#d46fa6}
+.btn{border:0;border-radius:16px;padding:12px 16px;background:var(--pink);color:#fff;font:inherit;box-shadow:0 4px 0 var(--deep)}
+.btn.g{background:var(--card);color:var(--ink);box-shadow:none;border:2px solid var(--soft)}
+.row{display:flex;gap:8px;align-items:center}
+.stat{display:flex;gap:8px;margin-bottom:12px}
+.stat div{flex:1;background:var(--card);border:2px solid var(--soft);border-radius:16px;padding:8px;text-align:center;font-size:12px;color:var(--mute)}
+.stat b{display:block;font-size:20px;color:var(--deep)}
+.set{background:var(--card);border:2px solid var(--soft);border-radius:20px;padding:12px;margin-bottom:12px}
+.set.done{border-color:var(--ok)}
+.hd{display:flex;align-items:center;gap:8px;margin-bottom:8px}
+.hd .nm{flex:1;min-width:0}
+.hd small{display:block;color:var(--mute);font-weight:400;font-size:11px}
+.star{border:0;background:none;font-size:22px;padding:0;color:var(--soft)}.star.on{color:#f2b630}
+.prog{font-size:13px;color:var(--deep);white-space:nowrap}
+.set.done .prog{color:var(--ok)}
+.pcs{display:flex;gap:6px}
+.pc{flex:1;display:flex;flex-direction:column;gap:4px}
+.po{border:2px solid var(--soft);background:color-mix(in srgb,var(--soft) 25%,var(--card));color:var(--mute);border-radius:14px;padding:8px 2px;font:inherit;font-size:20px;opacity:.7}
+.po small{display:block;font-size:10px}.po .pi{width:36px;height:36px;object-fit:contain;background:#fff;border-radius:8px;display:block;margin:0 auto 2px}
+.po.on{background:var(--pink);border-color:var(--pink);color:#fff;opacity:1}
+.qb{border:2px dashed var(--soft);background:none;color:var(--mute);border-radius:10px;padding:5px;font:inherit;font-size:11px}
+.qb.has{border:2px solid var(--ok);color:var(--ok);background:color-mix(in srgb,var(--ok) 10%,transparent)}
+.empty{text-align:center;color:var(--mute);padding:30px}
+.ov{position:fixed;inset:0;background:#fff;color:#333;z-index:20;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;padding:calc(16px + env(safe-area-inset-top,0px)) 16px calc(16px + env(safe-area-inset-bottom,0px))}
+.ov img{width:min(92vw,60vh,440px);image-rendering:pixelated;background:#fff}
+.ov h2{margin:0;font-size:17px;text-align:center}
+.toast{position:fixed;left:50%;bottom:calc(90px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:var(--deep);color:#fff;padding:10px 18px;border-radius:16px;z-index:30}
+label.l{display:block;font-size:12px;color:var(--mute);margin:0 0 4px 4px}
+.th{width:48px;height:48px;object-fit:contain;border-radius:10px;background:#fff;flex:none}.dr{display:flex;gap:8px;margin-bottom:12px}.side{flex:1;border:3px solid transparent;border-radius:18px;padding:8px;background:var(--card);min-width:0}.side.on{border-color:var(--pink)}.side b{display:block;margin-bottom:4px}.sl{display:flex;gap:6px;font-size:12px;padding:5px 6px;border-radius:10px;margin-bottom:3px;background:color-mix(in srgb,var(--soft) 25%,transparent);color:var(--mute);overflow:hidden;white-space:nowrap}.sl.f{background:color-mix(in srgb,var(--pink) 18%,var(--card));color:var(--ink)}.sl span{flex:none}.sl i{font-style:normal;opacity:.6}.tools{display:flex;gap:6px;margin-bottom:10px;flex-wrap:wrap}.pk{display:grid;grid-template-columns:repeat(2,1fr);gap:8px}.pk .set{margin:0;padding:8px;font-size:12px;text-align:center}.pk .set.sel{border-color:var(--pink);background:color-mix(in srgb,var(--pink) 14%,var(--card))}.pk .set.no{opacity:.45}
+</style>
+</head>
+<body>
+<header><b>♡ アイプリ コーデ管理</b><span id="ttl"></span></header>
+<main id="app"></main>
+<nav id="nav"></nav>
+<div id="ovw"></div>
+<input type="file" id="file" accept="image/*" hidden>
+<script>
+var T={A:['アクセ','🎀'],T:['トップス','👚'],B:['ボトムス','🩱'],S:['シューズ','👠'],O:['ワンピ','👗']};
+var CFG={ATBS:'4点(アクセ・トップス・ボトムス・シューズ)',OSA:'ワンピ型(ワンピ・シューズ・アクセ)',O:'ワンピのみ',TB:'2点(トップス・ボトムス)'};
+var G={h:'プラスハッピー!',4:'★★★★',n:'ナルミヤコラボ',3:'★★★',2:'★★',f:'フェスストーリー',d:'プレミアムライブ(フェス)',o:'プレミアムライブ(セレクション)',p:'ぴかぴかスタート',D:'スタートダッシュ',L:'サンリオコラボ',X:'サンエックスコラボ',s:'しなこちゃんコラボ',J:'ひみつのアイプリガチャ',m:'ミラーパクト',B:'フルコーデガチャ後半',A:'フルコーデガチャ前半',H:'ひまりとみつき',P:'プリコレガチャ',T:'いぎなり東北産',b:'バースデー',C:'ナムコキャンペーン'};
+var SEED='h|OA4-076|スイートいちごグリーン|4\nh|OA4-080|トランプレディホワイト|4\nh|OA4-084|アイプリだいすきナンバーワン!|4\n4|OA4-001|スマイルハートバズリウムピンク|3\n4|OA4-004|スマイルハートバズリウムグリーン|3\n4|OA4-007|スマイルハートバズリウムレッド|3\n4|OA4-010|ピュアハートバズリウムブルー|3\n4|OA4-013|ピュアハートバズリウムイエロー|3\n4|OA4-016|ピュアハートバズリウムパープル|3\n4|OA4-019|エレガントクリスタルパープル|3\n4|OA4-022|エレガントクリスタルピンク|3\n4|OA4-025|パンプキンハロウィンブラック|3\n4|OA4-028|トランプレディ|4\nn|OA4-088|メゾ ピアノ スイートリボン|3\nn|OA4-091|エンジェルブルー ポップデニム|3\n3|OA4-032|メモリアルクロック|4\n3|OA4-036|メモリアルクロックピーコック|4\n3|OA4-040|テディベアフリル|3\n3|OA4-043|テディベアフリルレッド|3\n3|OA4-046|エンジェルスポーツ|4\n3|OA4-050|エンジェルスポーツピンク|4\n3|OA4-054|ピクニックバスケット|4\n3|OA4-058|フレッシュスポーティトロピカル|3\n3|OA4-061|アイプリじょうねつゴシックブルー|3\n2|OA4-064|ハイセンスがくえんせいふく|1\n2|OA4-065|アンティークロック|4\n2|OA4-069|ラブリーステージオレンジ|4\nf|OA4-134|デザートフェスレッド|3\nf|OA4-137|デザートフェスパープル|3\nd|OA4-122|デザートフェスピンク|3\nd|OA4-125|デザートフェスブルー|3\nd|OA4-128|デザートフェスグリーン|3\nd|OA4-131|デザートフェスイエロー|3\no|OA4-116|パンプキンハロウィンネオン|3\no|OA4-119|ときめきハロウィンローズレッド|3\np|OA4-156|きんのきぼうのクリスタルバズリウム|3\nm|OA4-152|スクールチェッククリームイエロー|4\nB|OAF4-007|とんがりぼうしまほうつかいピンク|4\nB|OAF4-008|エレガントクリスタルホワイトブルー|4\nB|OAF4-009|ロマンスシャンデリアブラック|4\nB|OAF4-010|エンジェルバブルパープル|4\nB|OAF4-011|ゆめかわレインボーナイト|4\nB|OAF4-012|ぷるるんゼリーイエロー|4\nA|OAF4-001|とんがりぼうしまほうつかい|4\nA|OAF4-002|パンプキンハロウィンパープル|4\nA|OAF4-003|ピュアパレードバズリウム|4\nA|OAF4-004|タキシードゴールド|4\nA|OAF4-005|ときめきビジューツインピンク|4\nA|OAF4-006|トランプレディレッド|4\nH|OA4-192|ポッピンハートバズリウムネオン|3\nH|OA4-195|ミラクルムーンバズリウムネオン|3\nH|OA4-198|フレッシュレモンゆめかわブルー|3\nH|OA4-201|きらきらくらげラブリー|3\nP|OA4-094|リバティーサンシャイン|3\nP|OA4-097|トゥルーラブ|3\nP|OA4-100|めざめのプリンセスひめめ|3\nP|OA4-103|おしゃれプリンセス|4\nP|OA4-107|トゥインクルリボンサイリウム|3\nP|OA4-110|キャンディアラモードサイリウム|3\nP|OA4-113|ホリックトリックサイリウム|3\nT|OA4-159|とうほくさん かれんくん コーデ|4\nT|OA4-163|とうほくさん みうちゃん コーデ|4\nb|OA4-140|ハッピーバースデー!スカイブルー|4\nb|OA4-144|ハッピーバースデー!レッド|4\nC|-|ビリーブマーチレッド|4\nC|-|シールぺったんチアハッピー|4';
+function mk(c,old){return c.split('').map(function(t){var o=(old||[]).filter(function(p){return p.t==t})[0];return o||{t:t,own:0,qr:''}})}
+function seed(){return SEED.split('\n').map(function(l,i){var p=l.split('|'),n=+p[3];return{id:i+1,ser:'おねがい4だん',pg:'oa4',g:G[p[0]],code:p[1]=='-'?'':p[1],name:p[2],fav:0,memo:'',cfg:n==4?'ATBS':n==3?'OSA':'O',p:mk(n==4?'ATBS':n==3?'OSA':'O')}})}
+var S={tab:'list',q:'',f:'all',g:'all',sr:'all',img:{},side:0,eq:[{},{}],hist:[],fut:[],dc:0,own:1,bk:0,bs:'new',books:[],outs:[],open:0,qr:null,up:null,sets:[]};
+var PAGES=[['oa4','おねがい4だん'],['oa3','おねがい3だん'],['oa2','おねがい2だん'],['oa1','おねがい1だん'],['ring6','リング6だん'],['ring5','リング5だん'],['ring4','リング4だん'],['ring3','リング3だん'],['ring2','リング2だん'],['ring1','リング1だん'],['6','ひみつのアイプリ6だん'],['5','ひみつのアイプリ5だん'],['4','ひみつのアイプリ4だん'],['3','ひみつのアイプリ3だん'],['2','ひみつのアイプリ2だん'],['1','ひみつのアイプリ1だん'],['special','スペシャルコーデアイテム']];
+var GMAP={'デザートフェス':G.d,'ハロウィンセレクション':G.o};
+var SEED2=`@oa3|おねがい3だん
+h|080|マーメイドグランプリミルキーピンク
+h|083|ローズリボンロイヤルブルー
+h|087|うらないクォーツミステリアスレッド
+4|001|じょうねつゴシックバズリウム
+4|004|きぼうのクリスタルバズリウム
+4|007|エプロンブーケイエロー
+4|010|エプロンブーケレッド
+4|013|ゴシックフレアレッド
+4|016|ゴシックフレアパープル
+4|019|ローズリボン
+4|023|うらないクォーツ
+4|027|ジューシーサマーブルー
+4|030|スイートいちご
+X|091|たれぱんだ コーデ
+X|094|すみっコぐらし コーデ
+X|097|リラックマ コーデ
+X|100|センチメンタルサーカス コーデ
+3|034|アイプリじょうねつ
+3|037|アイプリきぼう
+3|040|パステルパッチワーク
+3|044|パステルパッチワークオレンジ
+3|048|ミステリアスバタフライ
+3|052|ミステリアスバタフライミント
+3|056|クレッセントムーン
+3|060|クレッセントムーンナイトブルー
+3|064|フレッシュスポーティ
+2|067|ハイセンスがくえんなつふく
+2|069|シューティングスター
+2|073|グリーンフリル
+f|159|シーサイドフェスピンク
+f|167|シーサイドフェスグリーン
+d|163|シーサイドフェスブルー
+d|171|シーサイドフェスイエロー
+d|175|シーサイドフェスレッド
+d|179|シーサイドフェスパープル
+o|151|うらないクォーツグリーン
+o|155|ローズプリンスブルー
+p|215|きんのじょうねつゴシックバズリウム
+m|183|クラシカルピュアドールショコラベリー
+B|F007|トレジャーパイレーツグリーン
+B|F008|スイートいちごピンク
+B|F009|ゴシックフレアオレンジ
+B|F010|リボンアイドルレッド
+B|F011|ほしのゆうびんやさんファンシー
+B|F012|スマイルパレードバズリウム
+A|F001|トレジャーパイレーツ
+A|F002|ジューシーサマーピンク
+A|F003|エプロンブーケライトブルー
+A|F004|リボンアイドルパープル
+A|F005|ローズリボンホワイト
+A|F006|エンジェルアイスブラウン
+P|103|はあと♡パール
+P|106|ダンスパンサー
+P|109|ジャンピンラビッツクール
+P|113|ジャンピンラビッツキューティー
+P|V1-227|ハートフェザー
+P|V1-230|マナマナみゃむ
+P|V1-237|プリマジチェックピンク
+J|127|ポッピンハートバズリウム
+J|130|ミラクルムーンバズリウム
+J|133|フラワーマーチバズリウム
+J|136|スカーレットバタフライバズリウム
+J|139|ロゼッションバズリウム
+J|142|レインボーキャンディバズリウム
+J|145|ベアベアベアバズリウム
+J|148|ラブマイミュージックバズリウム
+b|OA2-190|ハッピーバースデー!オレンジ
+b|203|ハッピーバースデー!グリーン
+@oa2|おねがい2だん
+h|197|おとぎばなしシンデレラホワイト
+h|201|ふわふわキャットグリーン
+h|205|キャンディポップビビッドイエロー
+4|001|ゆうきのフラワーバズリウム
+4|004|ゆうじょうスイーツバズリウム
+4|007|ビリーブマーチブルー
+4|010|ビリーブマーチグリーン
+4|013|シールぺったんチアグリーン
+4|016|シールぺったんチアイエロー
+4|019|ガーデンラビット
+4|023|キャンディポップ
+4|027|ゆめかわレインボー
+4|031|リボンアイドルイエロー
+L|082|おねがいパティシエール ハローキティ
+L|085|おねがいパティシエール シナモロール
+L|088|おねがいパティシエール けろけろけろっぴ
+L|091|おねがいパティシエール ポムポムプリン
+L|094|おねがいパティシエール クロミ
+L|097|おねがいパティシエール マイメロディ
+3|035|アイプリゆうき
+3|038|ビーチマリン
+3|042|ビーチマリンサンセット
+3|046|たなばたおねがい
+3|050|たなばたおねがいピンク
+3|054|マーチングエール
+3|058|マーチングエールホワイトパステル
+3|062|ふっくらパン
+3|066|ひまわりサマーこんがりグリーン
+2|070|おねがいちゅうがくなつふく
+2|071|ジェリービーンズ
+2|075|グレースドットライラック
+d|123|メルヘンフェスイエロー
+d|126|メルヘンフェスピンク
+d|129|メルヘンフェスブルー
+d|132|メルヘンフェスグリーン
+o|115|ガーデンラビットブルー
+o|119|ロックレザーオレンジ
+p|191|きんのゆうきのフラワーバズリウム
+m|135|ロマンチックローズジューンブライド
+B|F007|ミステリーファントムレッド
+B|F008|シールぺったんチアピンク
+B|F009|ゆめかわレインボーミルキーオレンジ
+B|F010|ガーリーピアノブラック
+B|F011|スペーストラベラーグリーン
+B|F012|ポッピンスウィムパープル
+A|F001|ミステリーファントム
+A|F002|ビリーブマーチオレンジ
+A|F003|キャンディポップチェリーレッド
+A|F004|フラワーメモリーペールブルー
+A|F005|すずらんかれんクリーム
+A|F006|もりのフラワーショップピンク
+P|100|セブンスコーデセクシー
+P|102|セブンスコーデフェミニン
+P|104|セブンスコーデエスニック
+P|V3-153|ファンタジータイムサイリウム
+P|V3-156|ネオンドロップサイリウム
+P|V3-159|メルティリリィサイリウム
+b|182|ハッピーバースデー!ピンク
+b|186|ハッピーバースデー!ブルー
+@oa1|おねがい1だん
+4|001|すきすきハートバズリウム
+4|004|ゆめゆめスターバズリウム
+4|007|ゆうじょうスイーツバズリウム
+4|010|トキメキトゥインクルピンク
+4|013|トキメキトゥインクルブルー
+4|016|リボンアイドルピンク
+4|020|リボンアイドルブルー
+4|024|ふわふわキャット
+4|028|ほしのゆうびんやさん
+4|032|ポップンマシュマロ
+s|079|しなこワールド
+3|036|アイプリすきすき
+3|039|アイプリゆめゆめ
+3|042|アイプリゆうじょう
+3|045|イースターフリル
+3|049|イースターフリルピンク
+3|053|ラブリーマーガレット
+3|057|やきたてクッキー
+3|060|やきたてクッキーココア
+3|063|メロンソーダ
+2|066|おねがいちゅうがくせいふく
+2|068|ラブリーステージ
+2|072|ツートンジャケットパープル
+d|108|バルーンフェスピンク
+d|111|バルーンフェスブルー
+d|114|バルーンフェスグリーン
+o|100|ふわふわキャットブルー
+o|104|コスメティックレッド
+D|154|きんのすきすきハートバズリウム
+m|117|レインボースカイブルー
+B|F007|マジカルミラクルパープル
+B|F008|ほしのゆうびんやさんゆめかわ
+B|F009|スペースダイナーオレンジ
+B|F010|ポップンマシュマログリーン
+B|F011|チェックメイトブルー
+B|F012|ハッピーデニムイエロー
+A|F001|マジカルミラクル
+A|F002|トキメキトゥインクルイエロー
+A|F003|ゆうじょうさくらツイン すきすきピンク
+A|F004|ゆうじょうさくらツイン ゆめゆめブルー
+A|F005|リボンアイドルグリーン
+A|F006|フルーツパフェチョコベリー
+P|082|スーパーサイリウムあろま
+P|085|スーパーサイリウムみかん
+P|088|スーパーサイリウムガァルル
+P|V1-218|フレッシュピンクベアトップ
+P|V1-221|スターシャインベスト
+P|V1-224|レッドロックベアトップ`;
+function seed2(){var out=[],pgs=[],cur,CN={4:'ATBS',3:'OSA',2:'TB',1:'O'};
+ SEED2.trim().split('\n').forEach(function(l){if(l[0]=='@'){var a=l.slice(1).split('|');cur={id:a[0],ser:a[1],rows:[]};pgs.push(cur)}else{var p=l.split('|');cur.rows.push({g:G[p[0]],c:p[1],name:p[2]})}});
+ pgs.forEach(function(pg){var v=pg.id.slice(2);
+  pg.rows.forEach(function(r){if(r.c[0]=='F'){r.code='OAF'+v+'-'+r.c.slice(1);r.n=4}else{var m=r.c.indexOf('-')>0?r.c.split('-'):['OA'+v,r.c];r.code=m[0]+'-'+m[1];r.pre=m[0];r.num=+m[1]}});
+  pg.rows.forEach(function(r){if(!r.n){var nx=pg.rows.filter(function(q){return q.pre==r.pre&&q.num>r.num}).map(function(q){return q.num});var n=nx.length?Math.min.apply(null,nx)-r.num:4;r.n=n>4?4:n}var c=CN[r.n];out.push({id:0,key:pg.ser+'|'+r.code+'|'+r.name,ser:pg.ser,pg:pg.id,g:r.g,code:r.code,name:r.name,fav:0,memo:'',cfg:c,p:mk(c)})})});
+ return out}
+function merge(){var h={},id=Date.now();S.sets.forEach(function(s){if(!s.ser){s.ser='おねがい4だん';s.pg='oa4'}s.key=s.key||s.ser+'|'+s.code+'|'+s.name;s.g=GMAP[s.g]||s.g;h[s.key]=1});seed2().forEach(function(s){if(!h[s.key]){s.id=++id;S.sets.push(s)}})}
+try{var d=JSON.parse(localStorage.getItem('aipri')||'null');S.sets=d&&d.length?d:seed()}catch(e){S.sets=seed()}
+merge();try{localStorage.setItem('aipri',JSON.stringify(S.sets))}catch(e){}
+try{var d2=JSON.parse(localStorage.getItem('aipri2')||'null');if(d2){S.books=d2.books||[];S.outs=d2.outs||[]}}catch(e){}
+ensureCfg();imgLoad();
+function save(){try{localStorage.setItem('aipri',JSON.stringify(S.sets))}catch(e){toast('保存できませんでした(容量不足)')}}
+function toast(t){var e=document.createElement('div');e.className='toast';e.textContent=t;document.body.appendChild(e);setTimeout(function(){e.remove()},1800)}
+function esc(s){return String(s).replace(/[&<>"]/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]})}
+function sid(id){return S.sets.filter(function(s){return s.id==id})[0]}
+function cnt(s){return s.p.filter(function(p){return p.own}).length}
+var TABS=[['list','コーデ','▦'],['qr','QR','▣'],['dress','きせかえ','♣'],['book','ブック','♡'],['add','追加','＋'],['set','設定','⚙']];
+function go(t){S.tab=t;S.open=0;S.q='';S.lim=100;render()}
+function render(){
+ document.getElementById('ttl').textContent=({list:'コーデ一覧',qr:'QRをひらく',dress:'きせかえ',book:'コーデブック',add:'コーデを追加',set:'設定'})[S.tab];
+ document.getElementById('nav').innerHTML=TABS.map(function(t){return '<button class="'+(S.tab==t[0]?'on':'')+'" onclick="go(\''+t[0]+'\')"><i>'+t[2]+'</i>'+t[1]+'</button>'}).join('');
+ document.getElementById('app').innerHTML=S.open?vEdit():({list:vList,qr:vList,dress:vDress,book:vBook,add:vAdd,set:vSet})[S.tab]();
+ if(S.tab=='list'||S.tab=='qr')upd();
+ ov();
+}
+function vList(){
+ var q=S.tab=='qr';
+ var fs=q?[['all','すべて'],['fav','★お気に入り']]:[['all','すべて'],['fav','★'],['part','集め中'],['none','未所持'],['done','コンプ済']];
+ return '<div id="st"></div><div class="chips">'+fs.map(function(f){return '<button class="chip '+(S.f==f[0]?'on':'')+'" onclick="S.f=\''+f[0]+'\';render()">'+f[1]+'</button>'}).join('')+'</div>'+
+ '<input placeholder="名前・コード・メモで検索" value="'+esc(S.q)+'" oninput="S.q=this.value;upd()">'+
+ '<select onchange="S.sr=this.value;render()"><option value="all">すべての弾</option>'+PAGES.map(function(p){return '<option'+(S.sr==p[1]?' selected':'')+'>'+p[1]+'</option>'}).join('')+'</select><select onchange="S.g=this.value;render()"><option value="all">すべての種類</option>'+Object.keys(G).map(function(k){return '<option'+(S.g==G[k]?' selected':'')+'>'+G[k]+'</option>'}).join('')+'</select><div id="res"></div>'}
+function upd(){
+ var q=S.tab=='qr',all=S.sets,pc=0,pt=0,dn=0;
+ all.forEach(function(s){pc+=cnt(s);pt+=s.p.length;if(cnt(s)==s.p.length)dn++});
+ var st=document.getElementById('st');if(st)st.innerHTML=q?'':'<div class="stat"><div><b>'+dn+'/'+all.length+'</b>コンプ</div><div><b>'+pc+'/'+pt+'</b>アイテム</div><div><b>'+Math.round(pc/pt*100)+'%</b>達成</div></div>';
+ var l=all.filter(function(s){var c=cnt(s),n=s.p.length;
+  if(q&&!s.p.some(function(p){return p.qr}))return false;
+  if(S.f=='fav'&&!s.fav)return false;if(S.f=='part'&&!(c>0&&c<n))return false;if(S.f=='none'&&c)return false;if(S.f=='done'&&c<n)return false;
+  if(S.sr!='all'&&s.ser!=S.sr)return false;if(S.g!='all'&&s.g!=S.g)return false;
+  return !S.q||(s.name+' '+s.code+' '+s.memo+' '+s.g).indexOf(S.q)>-1});
+ var r=document.getElementById('res');
+ var sh=l.slice(0,S.lim||100);r.innerHTML=l.length?sh.map(function(s){return card(s)}).join('')+(l.length>sh.length?'<button class="btn g" style="width:100%" onclick="S.lim=(S.lim||100)+100;upd()">さらに表示('+sh.length+'/'+l.length+')</button>':''):'<div class="empty">'+(q?'QRを登録したコーデがここに出ます。「コーデ」タブで各アイテムの「＋QR」から画像を登録してください。':'該当するコーデがありません。')+'</div>'}
+function card(s){var c=cnt(s);
+ return '<div class="set '+(c==s.p.length?'done':'')+'"><div class="hd"><button class="star '+(s.fav?'on':'')+'" onclick="fav('+s.id+')">★</button>'+th(s)+'<div class="nm">'+esc(s.name)+'<small>'+esc(s.ser||'')+(s.g?' ・ '+esc(s.g):'')+(s.code?' ・ '+esc(s.code):'')+(s.memo?' ・ '+esc(s.memo):'')+'</small></div><span class="prog">'+c+'/'+s.p.length+'</span>'+(s.pg?'<a class="chip" style="text-decoration:none" href="https://aipri.jp/verse/item/'+s.pg+'.html" target="_blank" rel="noopener">公式</a>':'')+'<button class="chip" onclick="S.open='+s.id+';render()">編集</button></div><div class="pcs">'+
+ s.p.map(function(p,k){return '<div class="pc"><button class="po '+(p.own?'on':'')+'" onclick="own('+s.id+','+k+')">'+(S.img[s.key+'#'+p.t]?'<img class="pi" src="'+S.img[s.key+'#'+p.t]+'" alt="">':T[p.t][1])+'<small>'+T[p.t][0]+'</small></button><button class="qb '+(p.qr?'has':'')+'" onclick="qr('+s.id+','+k+')">'+(p.qr?'QRを開く':'＋QR')+'</button></div>'}).join('')+'</div></div>'}
+function fav(id){var s=sid(id);s.fav=s.fav?0:1;save();upd()}
+function own(id,k){var p=sid(id).p[k];p.own=p.own?0:1;save();upd()}
+function qr(id,k){var p=sid(id).p[k];if(p.qr){S.qr={id:id,k:k};render()}else pick(id,k)}
+function pick(id,k){S.up=[id,k];var f=document.getElementById('file');f.value='';f.click()}
+document.getElementById('file').onchange=function(){var f=this.files[0];if(!f||!S.up)return;var u=S.up,fr=new FileReader();
+ fr.onload=function(){var im=new Image();im.onload=function(){var sc=Math.min(1,360/Math.max(im.width,im.height)),c=document.createElement('canvas');c.width=Math.round(im.width*sc);c.height=Math.round(im.height*sc);c.getContext('2d').drawImage(im,0,0,c.width,c.height);
+  var p=sid(u[0]).p[u[1]];p.qr=c.toDataURL('image/png');p.own=1;save();toast('QRを登録しました');S.qr=S.qr?{id:u[0],k:u[1]}:null;render()};im.src=fr.result};fr.readAsDataURL(f)};
+function vOv(){var s=sid(S.qr.id),p=s.p[S.qr.k],ks=[];s.p.forEach(function(x,i){if(x.qr)ks.push(i)});
+ var i=ks.indexOf(S.qr.k),pv=ks[(i+ks.length-1)%ks.length],nx=ks[(i+1)%ks.length];
+ return '<div class="ov"><h2>'+esc(s.name)+'<br>'+T[p.t][1]+' '+T[p.t][0]+'</h2><img src="'+p.qr+'" alt="QR">'+
+ '<div class="row">'+(ks.length>1?'<button class="btn g" onclick="S.qr.k='+pv+';render()">‹ 前</button>':'')+'<button class="btn" onclick="S.qr=null;render()">閉じる</button>'+(ks.length>1?'<button class="btn g" onclick="S.qr.k='+nx+';render()">次 ›</button>':'')+'</div>'+
+ '<div class="row"><button class="btn g" onclick="pick('+s.id+','+S.qr.k+')">画像を差し替え</button><button class="btn g" onclick="delQr('+s.id+','+S.qr.k+')">QRを削除</button></div></div>'}
+function delQr(id,k){if(!confirm('このQRを削除しますか?'))return;sid(id).p[k].qr='';save();S.qr=null;render()}
+function vEdit(){var s=sid(S.open);
+ return '<div class="set"><label class="l">コーデ名</label><input id="en" value="'+esc(s.name)+'"><label class="l">コード(例:OA4-028)</label><input id="ec" value="'+esc(s.code)+'"><label class="l">メモ(入手場所・タグなど)</label><input id="em" value="'+esc(s.memo)+'"><label class="l">パーツ構成</label><select id="ef">'+Object.keys(CFG).map(function(k){return '<option value="'+k+'"'+(s.cfg==k?' selected':'')+'>'+CFG[k]+'</option>'}).join('')+'</select><div class="row"><button class="btn" onclick="saveEdit()">保存</button><button class="btn g" onclick="S.open=0;render()">キャンセル</button><button class="btn g" onclick="delSet()">削除</button></div></div>'}
+function saveEdit(){var s=sid(S.open),v=function(i){return document.getElementById(i).value.trim()};if(!v('en')){toast('コーデ名を入力してください');return}
+ s.name=v('en');s.code=v('ec');s.memo=v('em');var c=v('ef');if(c!=s.cfg){if(s.p.some(function(p){return p.qr&&c.indexOf(p.t)<0})&&!confirm('構成にないパーツの所持・QRは消えます。続けますか?'))return;s.cfg=c;s.p=mk(c,s.p)}
+ save();S.open=0;toast('保存しました');render()}
+function delSet(){if(!confirm('このコーデを削除しますか?'))return;S.sets=S.sets.filter(function(s){return s.id!=S.open});save();S.open=0;render()}
+function vAdd(){return '<div class="set"><label class="l">コーデ名</label><input id="an" placeholder="例:スクールチェッククリームイエロー"><label class="l">コード(任意)</label><input id="ac" placeholder="例:OA4-152"><label class="l">弾</label><input id="as" placeholder="例:おねがい4だん" list="sl"><datalist id="sl">'+PAGES.map(function(p){return '<option value="'+p[1]+'">'}).join('')+'</datalist><label class="l">種類</label><input id="ag" placeholder="例:ミラーパクト" list="gl"><datalist id="gl">'+Object.keys(G).map(function(k){return '<option value="'+G[k]+'">'}).join('')+'</datalist><label class="l">パーツ構成</label><select id="af">'+Object.keys(CFG).map(function(k){return '<option value="'+k+'">'+CFG[k]+'</option>'}).join('')+'</select><button class="btn" style="width:100%" onclick="addSet()">追加する</button></div><div class="set"><p style="margin:0 0 8px">公式ページから一括取り込み</p><select id="ip">'+PAGES.map(function(p){return '<option value="'+p[0]+'">'+p[1]+'</option>'}).join('')+'</select><textarea id="it" placeholder="公式のコーデアイテムのページを開き、全選択してコピー → ここに貼り付け"></textarea><button class="btn g" style="width:100%" onclick="doImport()">取り込む</button></div>'}
+function addSet(){var v=function(i){return document.getElementById(i).value.trim()};if(!v('an')){toast('コーデ名を入力してください');return}
+ var c=v('af');S.sets.push({id:Date.now(),key:v('as')+'|'+v('ac')+'|'+v('an'),ser:v('as')||'その他',pg:'',g:v('ag')||'その他',code:v('ac'),name:v('an'),fav:0,memo:'',cfg:c,p:mk(c)});save();toast('追加しました');S.f='all';S.g='all';go('list')}
+function doImport(){var pg=document.getElementById('ip').value,lab=PAGES.filter(function(p){return p[0]==pg})[0][1],t=document.getElementById('it').value.split('\n').map(function(x){return x.trim()}).filter(Boolean),D=/^20\d\d年/,g='',on=0,add=0,h={},id=Date.now();
+ S.sets.forEach(function(s){h[s.key]=1});
+ for(var i=0;i<t.length;i++){var l=t[i];
+  if(on&&/^(閉じる|PAGE TOP|Ⓒ|©)/.test(l))break;
+  if(D.test(l))continue;
+  if(t[i+1]&&D.test(t[i+1])&&!(t[i-1]&&D.test(t[i-1]))){g=l;on=1;continue}
+  if(!on||l.length>40)continue;
+  var k=lab+'||'+l;if(h[k])continue;h[k]=1;S.sets.push({id:++id,key:k,ser:lab,pg:pg,g:g,code:'',name:l,fav:0,memo:'',cfg:'ATBS',p:mk('ATBS')});add++}
+ if(!add){toast('取り込めるコーデが見つかりませんでした');return}
+ save();toast(add+'件取り込みました');S.sr=lab;S.f='all';S.g='all';go('list')}
+function save2(){try{localStorage.setItem('aipri2',JSON.stringify({books:S.books,outs:S.outs}))}catch(e){toast('保存できませんでした(容量不足)')}}
+function ov(){document.getElementById('ovw').innerHTML=S.qr?(S.qr.seq?vOv2():vOv()):''}
+function vOv2(){var q=S.qr,n=q.seq.length,e=q.seq[q.i],s=sid(e[0]),p=s.p[e[1]];return '<div class="ov"><h2>'+esc(s.name)+'<br>'+T[p.t][1]+' '+T[p.t][0]+' ('+(q.i+1)+'/'+n+')</h2><img src="'+p.qr+'" alt="QR"><div class="row">'+(n>1?'<button class="btn g" onclick="S.qr.i='+((q.i+n-1)%n)+';ov()">‹ 前</button>':'')+'<button class="btn" onclick="S.qr=null;ov()">閉じる</button>'+(n>1?'<button class="btn g" onclick="S.qr.i='+((q.i+1)%n)+';ov()">次 ›</button>':'')+'</div></div>'}
+var SDN=['左','右'];
+function pr(ref){var a=String(ref).split(':'),s=sid(a[0]);return s&&s.p[a[1]]?{s:s,k:+a[1],p:s.p[a[1]]}:null}
+function sline(ref){var r=pr(ref);return r?r.s.name+T[r.p.t][1]:'(削除済み)'}
+function panels(){return [0,1].map(function(i){var e=S.eq[i];return '<div class="side '+(S.side==i?'on':'')+'" onclick="S.side='+i+';dref()"><b>'+SDN[i]+'</b>'+'ATBOS'.split('').map(function(t){var r=e[t]&&pr(e[t]);return '<div class="sl'+(r?' f':'')+'"><span>'+T[t][1]+'</span>'+(r?esc(r.s.name):'<i>'+T[t][0]+'</i>')+'</div>'}).join('')+'</div>'}).join('')}
+function dref(){document.getElementById('dpan').innerHTML=panels();document.getElementById('dres').innerHTML=dl()}
+function dl(){var o=[],q=S.q,n=0,sl='ATBOS'[S.dc-1];S.sets.forEach(function(s){s.p.forEach(function(p,k){if(S.own&&!p.own)return;if(S.dc&&p.t!=sl)return;if(q&&(s.name+' '+s.code+' '+s.memo+' '+s.g+' '+s.ser).indexOf(q)<0)return;n++;if(o.length<120)o.push('<div class="set '+(S.eq[S.side][p.t]==s.id+':'+k?'sel':'')+(p.own?'':' no')+'" onclick="wear('+s.id+','+k+')">'+((S.img[s.key+'#'+p.t]||S.img[s.key])?'<img class="th" style="width:64px;height:64px" src="'+(S.img[s.key+'#'+p.t]||S.img[s.key])+'" alt=""><div>'+T[p.t][1]+'</div>':'<div style="font-size:26px">'+T[p.t][1]+'</div>')+esc(s.name)+'<div style="color:var(--mute);font-size:11px">'+T[p.t][0]+(s.code?' ・ '+esc(s.code):'')+'</div></div>')})});return (o.length?o.join(''):'<div class="empty" style="grid-column:1/-1">'+(S.own?'持っているパーツがありません。「コーデ」タブで所持にチェックするか、「持ってるのみ」を外してください。':'該当するパーツがありません。')+'</div>')+(n>120?'<div class="empty" style="grid-column:1/-1">'+n+'件中120件を表示。検索で絞り込めます。</div>':'')}
+function vDress(){var ch=['すべて','アクセ','トップス','ボトムス','ワンピ','シューズ'];return '<div class="dr" id="dpan">'+panels()+'</div><div class="tools"><button class="btn" onclick="saveOut()">✓ 決定</button><button class="btn g" onclick="undo()">戻る</button><button class="btn g" onclick="redo()">進む</button><button class="btn g" onclick="resetEq()">リセット</button></div><div class="chips">'+ch.map(function(c,i){return '<button class="chip '+(S.dc==i?'on':'')+'" onclick="S.dc='+i+';render()">'+c+'</button>'}).join('')+'<button class="chip '+(S.own?'on':'')+'" onclick="S.own=S.own?0:1;render()">持ってるのみ</button></div><input placeholder="名前・コードで検索" value="'+esc(S.q)+'" oninput="S.q=this.value;dref()"><div class="pk" id="dres">'+dl()+'</div>'}
+function snap(){S.hist.push(JSON.stringify(S.eq));S.fut=[]}
+function wear(id,k){var t=sid(id).p[k].t,e=S.eq[S.side],r=id+':'+k;snap();if(e[t]==r)delete e[t];else{e[t]=r;if(t=='O'){delete e.T;delete e.B}if(t=='T'||t=='B')delete e.O}dref()}
+function undo(){if(!S.hist.length)return;S.fut.push(JSON.stringify(S.eq));S.eq=JSON.parse(S.hist.pop());dref()}
+function redo(){if(!S.fut.length)return;S.hist.push(JSON.stringify(S.eq));S.eq=JSON.parse(S.fut.pop());dref()}
+function resetEq(){snap();S.eq=[{},{}];dref()}
+function saveOut(){if(!Object.keys(S.eq[0]).length&&!Object.keys(S.eq[1]).length){toast('パーツを選んでください');return}var n=prompt('コーデの名前を入力してください');if(!n)return;S.outs.push({id:Date.now(),name:n,memo:'',bookId:S.bk||0,eq:JSON.parse(JSON.stringify(S.eq))});save2();toast('コーデブックに保存しました')}
+function vBook(){var bc='<div class="chips"><button class="chip '+(!S.bk?'on':'')+'" onclick="S.bk=0;render()">すべて</button>'+S.books.map(function(b){return '<button class="chip '+(S.bk==b.id?'on':'')+'" onclick="S.bk='+b.id+';render()">'+esc(b.name)+'</button>'}).join('')+'<button class="chip" onclick="newBook()">＋ 新規作成</button></div>';if(S.bk)bc+='<div class="row" style="margin-bottom:10px"><button class="chip" onclick="renameBook()">ブック名を変更</button><button class="chip" onclick="delBook()">ブックを削除</button></div>';return bc+'<input placeholder="コーデ名・メモで検索" value="'+esc(S.q)+'" oninput="S.q=this.value;bl()"><div class="row" style="margin-bottom:10px"><span style="white-space:nowrap">並び順</span><select style="margin:0" onchange="S.bs=this.value;bl()">'+[['new','新しい順'],['old','古い順'],['name','名前順']].map(function(x){return '<option value="'+x[0]+'"'+(S.bs==x[0]?' selected':'')+'>'+x[1]+'</option>'}).join('')+'</select></div><div id="bkl">'+bkHtml()+'</div>'}
+function bl(){document.getElementById('bkl').innerHTML=bkHtml()}
+function bkHtml(){var q=S.q,l=sortList(S.outs.filter(function(o){return (!S.bk||o.bookId==S.bk)&&(!q||(o.name+' '+o.memo).indexOf(q)>-1)}),S.bs);if(!l.length)return '<div class="empty">保存したコーデはまだありません。「きせかえ」で作って「決定」を押しましょう。</div>';return '<p>'+l.length+'件のコーデ</p>'+l.map(function(o){var miss=0,ln=[0,1].map(function(i){return 'ATBOS'.split('').filter(function(t){return o.eq[i][t]}).map(function(t){var r=o.eq[i][t],x=pr(r);if(x&&!x.p.own)miss++;return sline(r)})});return '<div class="set '+(miss?'':'done')+'"><div class="hd"><div class="nm">'+esc(o.name)+'<small>'+esc(o.memo||'')+'</small></div><span class="prog">'+(miss?'あと'+miss+'個':'全部持ってる')+'</span></div>'+[0,1].map(function(i){return ln[i].length?'<div style="font-size:12px;margin-bottom:4px"><b>'+SDN[i]+'</b> '+ln[i].map(esc).join(' / ')+'</div>':''}).join('')+'<div class="row" style="flex-wrap:wrap;margin-top:8px"><button class="chip" onclick="loadOut('+o.id+')">開く</button><button class="chip" onclick="qrOut('+o.id+')">QR</button><button class="chip" onclick="moveOut('+o.id+')">移動</button><button class="chip" onclick="memoOut('+o.id+')">メモ</button><button class="chip" onclick="delOut('+o.id+')">削除</button></div></div>'}).join('')}
+function outById(id){return S.outs.filter(function(o){return o.id==id})[0]}
+function loadOut(id){S.eq=JSON.parse(JSON.stringify(outById(id).eq));S.hist=[];S.fut=[];S.tab='dress';S.q='';render()}
+function qrOut(id){var o=outById(id),seq=[];[0,1].forEach(function(i){'ATBOS'.split('').forEach(function(t){var x=o.eq[i][t]&&pr(o.eq[i][t]);if(x&&x.p.qr)seq.push([x.s.id,x.k])})});if(!seq.length){toast('QRが登録されたパーツがありません');return}S.qr={seq:seq,i:0};ov()}
+function memoOut(id){var o=outById(id),m=prompt('メモを入力してください',o.memo||'');if(m===null)return;o.memo=m;save2();bl()}
+function delOut(id){if(!confirm('このコーデを削除しますか?'))return;S.outs=S.outs.filter(function(o){return o.id!=id});save2();bl()}
+function moveOut(id){if(!S.books.length){toast('先に「＋ 新規作成」でブックを作ってください');return}var m='移動先の番号を入力\n0: ブックなし';S.books.forEach(function(b,k){m+='\n'+(k+1)+': '+b.name});var v=parseInt(prompt(m),10);if(isNaN(v)||v<0||v>S.books.length)return;outById(id).bookId=v?S.books[v-1].id:0;save2();render()}
+function newBook(){var n=prompt('コーデブックの名前を入力してください');if(!n)return;var id=Date.now();S.books.push({id:id,name:n});S.bk=id;save2();render()}
+function curBook(){return S.books.filter(function(b){return b.id==S.bk})[0]}
+function renameBook(){var b=curBook(),n=prompt('新しい名前',b.name);if(!n)return;b.name=n;save2();render()}
+function delBook(){var b=curBook();if(!confirm('「'+b.name+'」を削除しますか?中のコーデは「すべて」に残ります。'))return;S.outs.forEach(function(o){if(o.bookId==b.id)o.bookId=0});S.books=S.books.filter(function(x){return x.id!=b.id});S.bk=0;save2();render()}
+var DB;
+function idb(cb){if(DB)return cb(DB);try{var r=indexedDB.open('aipri-img',1);r.onupgradeneeded=function(){r.result.createObjectStore('i')};r.onsuccess=function(){DB=r.result;cb(DB)};r.onerror=function(){cb(null)}}catch(e){cb(null)}}
+function imgPut(k,v){idb(function(db){if(db)db.transaction('i','readwrite').objectStore('i').put(v,k)})}
+function imgLoad(){idb(function(db){if(!db)return;var q=db.transaction('i').objectStore('i').openCursor();q.onsuccess=function(){var c=q.result;if(c){S.img[c.key]=c.value;c.continue()}else render()}})}
+function th(s){return S.img[s.key]?'<img class="th" src="'+S.img[s.key]+'" alt="">':''}
+function bulkImg(el){var fs=[].slice.call(el.files),ok=0,ng=0,i=0,R=document.getElementById('bres'),idx={};
+ S.sets.forEach(function(s){if(s.code)idx[s.code.toUpperCase()]=s});
+ (function nx(){if(i>=fs.length){R.textContent=ok+'件登録しました。'+ng+'件はコードが一致せずスキップ(コーデ以外の画像など)';toast(ok+'件登録しました');return}
+  var f=fs[i++],m=/(OAF?\d-\d{3}|V\d-\d{3})/i.exec(f.name),s=m&&idx[m[1].toUpperCase()];
+  if(!s){ng++;return nx()}
+  var fr=new FileReader();fr.onload=function(){var im=new Image();im.onload=function(){var sc=Math.min(1,200/Math.max(im.width,im.height)),c=document.createElement('canvas');c.width=Math.round(im.width*sc);c.height=Math.round(im.height*sc);var x=c.getContext('2d');x.fillStyle='#fff';x.fillRect(0,0,c.width,c.height);x.drawImage(im,0,0,c.width,c.height);var u=c.toDataURL('image/jpeg',.8);S.img[s.key]=u;imgPut(s.key,u);ok++;R.textContent=ok+'件登録中…';nx()};im.onerror=function(){ng++;nx()};im.src=fr.result};fr.readAsDataURL(f)})()}
+function cnorm(c){var m=/(OAF?\d-\d{3}|V\d-\d{3}|APR\d-\d{3})/i.exec(c);return m?m[1].toUpperCase():String(c).toUpperCase().replace(/_/g,'-')}
+function serLabel(s){return /^\d+だん$/.test(s)?'ひみつのアイプリ'+s:s==='スペシャル'?'スペシャルコーデアイテム':s}
+function applyCatalog(j,n){var its=j.items;if(!Array.isArray(its))throw 0;
+ var rows=its.map(function(i){return{ser:serLabel(i.series),code:cnorm(i.code),name:i.name,pg:i.series_key}}),cc={},nums={};
+ rows.forEach(function(r){var k=r.ser+'|'+r.code;cc[k]=(cc[k]||0)+1;var m=/^([A-Z]+\d?)-(\d{3})$/.exec(r.code);if(m){var q=r.ser+'|'+m[1];(nums[q]=nums[q]||[]).push(+m[2])}});
+ Object.keys(nums).forEach(function(k){nums[k].sort(function(a,b){return a-b})});
+ rows.forEach(function(r){
+  var dup=cc[r.ser+'|'+r.code]>1,s=S.sets.filter(function(x){return x.ser==r.ser&&cnorm(x.code||'')==r.code&&(!dup||x.name==r.name)})[0]||S.sets.filter(function(x){return x.ser==r.ser&&!x.code&&x.name==r.name})[0];
+  if(s){if(!s.code)s.code=r.code;if(!s.pg)s.pg=r.pg;n.up++;return}
+  var cfg='ATBS',m=/^([A-Z]+\d?)-(\d{3})$/.exec(r.code);
+  if(m&&m[1].indexOf('OAF')!==0){var a=nums[r.ser+'|'+m[1]],v=+m[2],nx=a.filter(function(x){return x>v})[0],g=nx?nx-v:4;cfg=g>=4?'ATBS':g==3?'OSA':g==2?'TB':'O'}
+  S._id=(S._id||Date.now())+1;S.sets.push({id:S._id,key:r.ser+'|'+r.code+'|'+r.name,ser:r.ser,pg:r.pg,g:'',code:r.code,name:r.name,fav:0,memo:'',cfg:cfg,p:mk(cfg)});n.ns++})}
+function ensureCfg(){S.sets.forEach(function(s){if(!CFG[s.cfg])CFG[s.cfg]=s.cfg.split('').map(function(t){return T[t]?T[t][0]:t}).join('・')})}
+function applyPack(pk,n){if(!pk||!Array.isArray(pk.sets))throw 0;var ser=pk.ser;
+ pk.sets.forEach(function(ps){
+  var pc=ps.code?cnorm(ps.code):'',cd=S.sets.filter(function(x){return x.ser==ser&&pc&&cnorm(x.code||'')==pc}),s=cd.filter(function(x){return x.name==ps.name})[0]||cd[0]||S.sets.filter(function(x){return x.ser==ser&&!x.code&&x.name==ps.name})[0];
+  var cfg=ps.parts.map(function(p){return p.t}).join('');
+  if(!s){S._id=(S._id||Date.now())+1;s={id:S._id,key:ser+'|'+ps.code+'|'+ps.name,ser:ser,pg:pk.page,g:ps.g||'',code:ps.code,name:ps.name,fav:0,memo:'',cfg:cfg,p:mk(cfg)};S.sets.push(s);n.ns++}
+  else{if(!s.code&&ps.code)s.code=ps.code;if(!s.pg)s.pg=pk.page;if(cfg&&s.cfg!=cfg){var lost=s.p.some(function(p){return cfg.indexOf(p.t)<0&&(p.own||p.qr)});if(lost)n.keep++;else{s.cfg=cfg;s.p=mk(cfg,s.p);n.re++}}n.up++}
+  if(ps.img){S.img[s.key]=ps.img;imgPut(s.key,ps.img);n.img++}
+  ps.parts.forEach(function(p){if(p.img){var k=s.key+'#'+p.t;S.img[k]=p.img;imgPut(k,p.img);n.img++}})})}
+function packImport(el){var fs=[].slice.call(el.files),R=document.getElementById('pres'),n={ns:0,up:0,img:0,re:0,keep:0,bad:0},i=0;
+ (function nx(){if(i>=fs.length){save();ensureCfg();R.textContent=n.img+'枚の画像を登録、新しいコーデ'+n.ns+'件を追加、既存'+n.up+'件に反映'+(n.re?'、パーツ構成を実際に合わせたもの'+n.re+'件':'')+(n.keep?'、所持済みパーツがあり構成を変えなかったもの'+n.keep+'件':'')+(n.bad?'。読めないファイル'+n.bad+'件':'');toast('取り込みました');return}
+  R.textContent=(i+1)+'/'+fs.length+' 取り込み中…';var f=fs[i++],fr=new FileReader();fr.onload=function(){try{var j=JSON.parse(fr.result);if(j&&j.format==='outfit-url-catalog-v1')applyCatalog(j,n);else applyPack(j,n)}catch(e){n.bad++}setTimeout(nx,0)};fr.onerror=function(){n.bad++;nx()};fr.readAsText(f)})()}
+function vSet(){return '<div class="set"><p style="margin:0 0 8px">コーデ画像パックの取り込み</p><p style="font-size:12px;color:var(--mute);font-weight:400;margin:0 0 8px">PCで作った aipri-pack-◯◯.json、またはコーデ一覧のカタログJSONを選んでください(複数可)。まだ無いコーデは追加され、パックの場合はコーデ画像とパーツ画像も入ります。</p><label class="btn" style="display:block;text-align:center">パックを選ぶ<input type="file" accept=".json,application/json" multiple hidden onchange="packImport(this)"></label><p id="pres" style="font-size:12px;margin:8px 0 0"></p></div><div class="set"><p style="margin:0 0 8px">コーデ画像の一括登録</p><p style="font-size:12px;color:var(--mute);font-weight:400;margin:0 0 8px">PCで公式のコーデアイテムページを「ページを保存」し、できた画像フォルダの中身を選んでください。ファイル名のコード(例:OA4-028)で自動的に割り当てます。</p><label class="btn" style="display:block;text-align:center">画像を選ぶ(複数可)<input type="file" accept="image/*" multiple hidden onchange="bulkImg(this)"></label><p id="bres" style="font-size:12px;margin:8px 0 0"></p></div><div class="set"><p style="margin:0 0 8px">バックアップ(機種変更・ブラウザ変更に備えて)</p><button class="btn" onclick="exp()">データを書き出す</button><textarea id="bk" placeholder="ここに書き出したデータを貼り付けて「読み込む」"></textarea><button class="btn g" onclick="imp()">読み込む(今のデータを置き換え)</button></div><p class="empty" style="font-size:12px">データはこの端末のブラウザに保存されます。サイトのデータを消すと失われるので、時々バックアップしてください。</p>'}
+function exp(){var t=document.getElementById('bk');t.value=JSON.stringify({sets:S.sets,books:S.books,outs:S.outs});t.select();try{document.execCommand('copy');toast('コピーしました')}catch(e){toast('テキストを長押ししてコピーしてください')}}
+function imp(){try{var d=JSON.parse(document.getElementById('bk').value);var ss=Array.isArray(d)?d:d.sets;if(!Array.isArray(ss)||!ss[0].p)throw 0;if(!confirm('今のデータを置き換えますか?'))return;S.sets=ss;if(!Array.isArray(d)){S.books=d.books||[];S.outs=d.outs||[]}save();save2();toast('読み込みました');go('list')}catch(e){toast('データの形式が正しくありません')}}
+render();
+</script>
+</body>
+</html>
+
+</body></html>
